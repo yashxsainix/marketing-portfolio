@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yashpal Saini — Marketing Analytics Portfolio</title>
+<meta name="description" content="Marketing Analytics Specialist | Campaign Strategy, Digital Marketing, Brand Management | Available June 2026">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{
+  --bg:#030810;--bg-card:#07101F;--bg-el:#0D1830;
+  --accent:#FF5400;--acc-dim:rgba(255,84,0,.1);--acc-border:rgba(255,84,0,.25);
+  --blue:#0EA5E9;--blue-dim:rgba(14,165,233,.1);
+  --green:#10B981;--green-dim:rgba(16,185,129,.1);
+  --gold:#F59E0B;--gold-dim:rgba(245,158,11,.1);
+  --text:#EFF6FF;--sub:#7A8FA8;--dim:#1E2D45;
+  --border:rgba(255,255,255,.05);--border2:rgba(255,255,255,.09);
+  --r:14px;--r-sm:8px;
+  --ff:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);font-weight:400;line-height:1.7;overflow-x:hidden;cursor:none;}
+
+/* CUSTOM CURSOR */
+#cur{position:fixed;width:10px;height:10px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,width .2s,height .2s,background .2s;}
+#cur-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(255,84,0,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .15s ease,width .3s,height .3s,opacity .3s;}
+body:hover #cur{opacity:1;}
+a:hover~#cur,button:hover~#cur{width:16px;height:16px;}
+
+/* SCROLL PROGRESS */
+#prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--gold));z-index:999;transition:width .1s;}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:900;padding:20px 5%;display:flex;justify-content:space-between;align-items:center;transition:background .3s,padding .3s;}
+nav.scrolled{background:rgba(3,8,16,.92);backdrop-filter:blur(12px);padding:14px 5%;border-bottom:0.5px solid var(--border2);}
+.nav-logo{font-family:var(--ff);font-weight:800;font-size:1.1rem;letter-spacing:-.3px;color:var(--text);}
+.nav-logo span{color:var(--accent);}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{font-size:.8rem;font-weight:500;color:var(--sub);text-decoration:none;letter-spacing:.5px;text-transform:uppercase;transition:color .2s;}
+.nav-links a:hover{color:var(--accent);}
+.nav-cta{background:var(--accent);color:#fff;padding:8px 20px;border-radius:20px;font-size:.8rem;font-weight:500;text-decoration:none;letter-spacing:.3px;transition:opacity .2s,transform .2s;}
+.nav-cta:hover{opacity:.85;transform:scale(.97);}
+
+/* TICKER */
+.ticker-wrap{background:var(--acc-dim);border-bottom:1px solid var(--acc-border);padding:8px 0;overflow:hidden;white-space:nowrap;margin-top:60px;}
+.ticker{display:inline-block;animation:ticker 28s linear infinite;}
+.ticker-item{display:inline-block;padding:0 32px;font-size:.72rem;font-weight:500;color:var(--sub);letter-spacing:.4px;text-transform:uppercase;}
+.ticker-item span{color:var(--accent);margin-right:6px;}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 5%;position:relative;overflow:hidden;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--dim) 1px,transparent 1px),linear-gradient(90deg,var(--dim) 1px,transparent 1px);background-size:60px 60px;opacity:.35;}
+.hero-glow{position:absolute;top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(255,84,0,.08) 0%,transparent 70%);pointer-events:none;}
+.hero-glow2{position:absolute;bottom:-10%;left:-5%;width:500px;height:500px;background:radial-gradient(circle,rgba(14,165,233,.06) 0%,transparent 70%);pointer-events:none;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--acc-dim);border:1px solid var(--acc-border);border-radius:20px;padding:5px 14px;font-size:.72rem;font-weight:500;color:var(--accent);letter-spacing:.5px;text-transform:uppercase;margin-bottom:28px;width:fit-content;}
+.hero-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.hero-h1{font-family:var(--ff);font-size:clamp(52px,8vw,100px);font-weight:800;line-height:.95;letter-spacing:-2px;margin-bottom:24px;}
+.hero-h1 .line1{color:var(--text);}
+.hero-h1 .line2{background:linear-gradient(135deg,var(--accent) 0%,var(--gold) 60%,#FF9500 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-rotate{font-family:var(--fb);font-size:clamp(16px,2.5vw,22px);color:var(--sub);font-weight:300;margin-bottom:40px;min-height:34px;}
+.hero-rotate .word{display:none;}
+.hero-rotate .word.active{display:inline;animation:fadeSlide .5s ease;}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.hero-pills{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:44px;}
+.h-pill{display:flex;align-items:center;gap:7px;background:var(--bg-card);border:1px solid var(--border2);border-radius:8px;padding:8px 14px;font-size:.8rem;color:var(--sub);}
+.h-pill .val{font-family:var(--ff);font-weight:700;font-size:.95rem;color:var(--text);}
+.h-pill.g .val{color:var(--green);}
+.h-pill.b .val{color:var(--blue);}
+.h-pill.o .val{color:var(--accent);}
+.h-pill.d .val{color:var(--gold);}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+.btn-primary{background:var(--accent);color:#fff;padding:13px 28px;border-radius:8px;text-decoration:none;font-weight:500;font-size:.9rem;display:inline-flex;align-items:center;gap:8px;transition:transform .2s,opacity .2s;}
+.btn-primary:hover{transform:translateY(-2px);opacity:.9;}
+.btn-ghost{border:1px solid var(--border2);color:var(--text);padding:13px 28px;border-radius:8px;text-decoration:none;font-weight:500;font-size:.9rem;display:inline-flex;align-items:center;gap:8px;transition:border-color .2s,background .2s;}
+.btn-ghost:hover{border-color:var(--accent);background:var(--acc-dim);}
+
+/* SECTION LAYOUT */
+section{padding:90px 5%;}
+.sec-label{display:inline-flex;align-items:center;gap:10px;font-size:.72rem;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+.sec-label::before{content:'';width:24px;height:1.5px;background:var(--accent);}
+.sec-h{font-family:var(--ff);font-size:clamp(28px,4vw,44px);font-weight:800;line-height:1.1;letter-spacing:-1px;margin-bottom:14px;}
+.sec-sub{font-size:1rem;color:var(--sub);max-width:600px;line-height:1.7;margin-bottom:48px;}
+
+/* FADE-IN ANIMATION */
+.fade{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
+.fade.visible{opacity:1;transform:none;}
+.fade-d1{transition-delay:.1s;}
+.fade-d2{transition-delay:.2s;}
+.fade-d3{transition-delay:.3s;}
+.fade-d4{transition-delay:.4s;}
+
+/* METRICS */
+#metrics{background:var(--bg);}
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;}
+.m-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:24px 20px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s;}
+.m-card:hover{border-color:var(--border2);transform:translateY(-3px);}
+.m-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;}
+.m-card.green::before{background:var(--green-dim);}
+.m-card.blue::before{background:var(--blue-dim);}
+.m-card.orange::before{background:var(--acc-dim);}
+.m-card.gold::before{background:var(--gold-dim);}
+.m-card:hover::before{opacity:1;}
+.m-prefix{font-size:.75rem;font-weight:500;letter-spacing:.5px;color:var(--sub);margin-bottom:8px;text-transform:uppercase;}
+.m-num{font-family:var(--ff);font-size:2.6rem;font-weight:800;line-height:1;margin-bottom:6px;}
+.m-card.green .m-num{color:var(--green);}
+.m-card.blue .m-num{color:var(--blue);}
+.m-card.orange .m-num{color:var(--accent);}
+.m-card.gold .m-num{color:var(--gold);}
+.m-suffix{font-family:var(--ff);font-size:1.5rem;font-weight:700;}
+.m-lbl{font-size:.8rem;color:var(--sub);line-height:1.4;}
+.m-src{font-size:.68rem;color:var(--dim);margin-top:6px;border-top:1px solid var(--border);padding-top:6px;}
+
+/* CASE STUDIES */
+#casestudies{background:var(--bg-card);}
+.cs-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-bottom:60px;}
+.cs-grid.reverse{direction:rtl;}
+.cs-grid.reverse>*{direction:ltr;}
+.cs-tag{font-size:.7rem;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+.cs-h{font-family:var(--ff);font-size:1.7rem;font-weight:800;line-height:1.15;letter-spacing:-.5px;margin-bottom:14px;}
+.cs-p{font-size:.9rem;color:var(--sub);line-height:1.75;margin-bottom:22px;}
+.cs-stats{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:24px;}
+.cs-stat{text-align:center;}
+.cs-stat-num{font-family:var(--ff);font-size:1.8rem;font-weight:800;color:var(--green);}
+.cs-stat-lbl{font-size:.72rem;color:var(--sub);text-transform:uppercase;letter-spacing:.4px;}
+.cs-divider{width:1px;background:var(--border);align-self:stretch;}
+.chart-wrap{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:24px;position:relative;}
+.chart-title{font-size:.8rem;font-weight:500;color:var(--sub);margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px;}
+.chart-legend{display:flex;gap:16px;margin-bottom:14px;flex-wrap:wrap;}
+.lg-item{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--sub);}
+.lg-dot{width:8px;height:8px;border-radius:2px;}
+
+/* SKILLS */
+#skills{background:var(--bg);}
+.skills-cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+.sk-cat{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:28px;}
+.sk-cat-title{font-family:var(--ff);font-size:1rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.sk-cat-icon{width:32px;height:32px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:1rem;}
+.sk-item{display:flex;flex-direction:column;gap:5px;margin-bottom:16px;}
+.sk-item:last-child{margin-bottom:0;}
+.sk-top{display:flex;justify-content:space-between;font-size:.82rem;color:var(--sub);}
+.sk-top .sk-pct{color:var(--text);font-weight:500;}
+.sk-bar{height:4px;background:var(--dim);border-radius:2px;overflow:hidden;}
+.sk-fill{height:100%;border-radius:2px;width:0;transition:width 1.4s cubic-bezier(.25,1,.5,1);}
+
+/* TOOLS */
+#tools{background:var(--bg-card);}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;}
+.tool-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;transition:border-color .2s,transform .2s;}
+.tool-card:hover{border-color:var(--accent);transform:translateY(-3px);}
+.tool-icon{font-size:1.6rem;}
+.tool-name{font-size:.78rem;font-weight:500;color:var(--text);}
+.tool-level{font-size:.65rem;color:var(--sub);text-transform:uppercase;letter-spacing:.4px;}
+.tool-card.expert .tool-level{color:var(--green);}
+.tool-card.advanced .tool-level{color:var(--blue);}
+.tool-card.proficient .tool-level{color:var(--gold);}
+
+/* EXPERIENCE */
+#experience{background:var(--bg);}
+.timeline{position:relative;padding-left:32px;}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--accent),var(--blue),transparent);}
+.tl-item{position:relative;margin-bottom:48px;}
+.tl-item::before{content:'';position:absolute;left:-38px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--bg-card);border:2px solid var(--accent);transition:background .2s;}
+.tl-item:hover::before{background:var(--accent);}
+.tl-date{font-size:.72rem;color:var(--accent);letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px;font-weight:500;}
+.tl-org{font-family:var(--ff);font-size:1.15rem;font-weight:700;margin-bottom:3px;}
+.tl-role{font-size:.85rem;color:var(--blue);font-weight:500;margin-bottom:10px;}
+.tl-bullets{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.tl-bullets li{font-size:.85rem;color:var(--sub);padding-left:16px;position:relative;line-height:1.6;}
+.tl-bullets li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:.75rem;}
+
+/* EDUCATION */
+#education{background:var(--bg-card);}
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:48px;}
+.edu-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:28px;position:relative;overflow:hidden;}
+.edu-card.featured{border-color:var(--acc-border);background:linear-gradient(135deg,var(--bg) 0%,rgba(255,84,0,.03) 100%);}
+.edu-badge{position:absolute;top:16px;right:16px;background:var(--acc-dim);border:1px solid var(--acc-border);color:var(--accent);font-size:.65rem;font-weight:500;letter-spacing:.5px;text-transform:uppercase;padding:3px 10px;border-radius:12px;}
+.edu-year{font-size:.72rem;color:var(--sub);letter-spacing:.4px;margin-bottom:8px;text-transform:uppercase;}
+.edu-school{font-family:var(--ff);font-size:1.05rem;font-weight:700;margin-bottom:4px;}
+.edu-degree{font-size:.85rem;color:var(--accent);font-weight:500;margin-bottom:10px;}
+.edu-courses{font-size:.78rem;color:var(--sub);line-height:1.6;}
+.edu-courses strong{color:var(--text);font-weight:500;}
+
+/* CERTS */
+.certs-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.cert-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:22px;position:relative;overflow:hidden;transition:transform .2s,border-color .2s;}
+.cert-card:hover{transform:translateY(-3px);border-color:var(--border2);}
+.cert-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;}
+.cert-card:nth-child(1)::after{background:var(--accent);}
+.cert-card:nth-child(2)::after{background:var(--blue);}
+.cert-card:nth-child(3)::after{background:var(--gold);}
+.cert-issuer-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.cert-logo{font-size:1.3rem;}
+.cert-issuer{font-size:.72rem;color:var(--sub);font-weight:500;text-transform:uppercase;letter-spacing:.4px;}
+.cert-name{font-family:var(--ff);font-size:.95rem;font-weight:700;line-height:1.3;margin-bottom:8px;}
+.cert-year{font-size:.72rem;color:var(--sub);}
+
+/* PROJECTS */
+#projects{background:var(--bg);}
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+.proj-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:26px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s;}
+.proj-card:hover{border-color:var(--border2);transform:translateY(-4px);}
+.proj-card .pc-accent{position:absolute;top:0;left:0;right:0;height:2px;}
+.proj-card:nth-child(1) .pc-accent{background:linear-gradient(90deg,var(--accent),var(--gold));}
+.proj-card:nth-child(2) .pc-accent{background:linear-gradient(90deg,var(--blue),var(--green));}
+.proj-card:nth-child(3) .pc-accent{background:linear-gradient(90deg,var(--green),var(--blue));}
+.proj-card:nth-child(4) .pc-accent{background:linear-gradient(90deg,var(--gold),var(--accent));}
+.proj-tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.proj-tag{font-size:.65rem;padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.3px;}
+.proj-tag.orange{background:var(--acc-dim);color:var(--accent);border:1px solid var(--acc-border);}
+.proj-tag.blue{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(14,165,233,.25);}
+.proj-tag.green{background:var(--green-dim);color:var(--green);border:1px solid rgba(16,185,129,.25);}
+.proj-tag.gold{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(245,158,11,.25);}
+.proj-name{font-family:var(--ff);font-size:1.05rem;font-weight:700;margin-bottom:8px;}
+.proj-desc{font-size:.82rem;color:var(--sub);line-height:1.6;margin-bottom:14px;}
+.proj-metrics{display:flex;gap:12px;flex-wrap:wrap;}
+.proj-m{font-size:.75rem;font-weight:500;color:var(--green);}
+.proj-link{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;color:var(--accent);text-decoration:none;margin-top:12px;font-weight:500;transition:gap .2s;}
+.proj-link:hover{gap:8px;}
+
+/* CONTACT */
+#contact{background:var(--bg-card);text-align:center;}
+.contact-wrap{max-width:640px;margin:0 auto;}
+.contact-h{font-family:var(--ff);font-size:clamp(32px,5vw,56px);font-weight:800;line-height:1;letter-spacing:-1.5px;margin-bottom:16px;}
+.contact-h .highlight{background:linear-gradient(135deg,var(--accent),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.contact-p{font-size:1rem;color:var(--sub);margin-bottom:36px;}
+.contact-links{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
+.c-link{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:8px;font-size:.85rem;font-weight:500;text-decoration:none;transition:transform .2s,opacity .2s;}
+.c-link:hover{transform:translateY(-2px);opacity:.88;}
+.c-link.primary{background:var(--accent);color:#fff;}
+.c-link.secondary{background:var(--bg);border:1px solid var(--border2);color:var(--text);}
+.c-link.secondary:hover{border-color:var(--accent);}
+
+/* FOOTER */
+footer{background:var(--bg);border-top:1px solid var(--border);padding:24px 5%;display:flex;justify-content:space-between;align-items:center;font-size:.78rem;color:var(--sub);}
+footer span{color:var(--accent);}
+
+/* DIVIDER */
+.div-line{width:100%;height:1px;background:var(--border);}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav .nav-links{display:none;}
+  .cs-grid{grid-template-columns:1fr;}
+  .cs-grid.reverse{direction:ltr;}
+  .edu-grid{grid-template-columns:1fr;}
+  .certs-row{grid-template-columns:1fr;}
+  .metrics-grid{grid-template-columns:repeat(2,1fr);}
+  footer{flex-direction:column;gap:8px;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<div id="prog"></div>
+
+<nav id="nav">
+  <div class="nav-logo">YS<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#metrics">Results</a></li>
+    <li><a href="#casestudies">Case Studies</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+  </ul>
+  <a href="mailto:yashsaini30668@gmail.com" class="nav-cta">Get in Touch</a>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-wrap" style="margin-top:60px;">
+  <div class="ticker" id="ticker">
+    <span class="ticker-item"><span>✦</span> Google Certified Digital Marketer</span>
+    <span class="ticker-item"><span>✦</span> +65% Social Media Reach Growth</span>
+    <span class="ticker-item"><span>✦</span> Brand Management — University of London</span>
+    <span class="ticker-item"><span>✦</span> +55% Sign-Up Growth · Gharstuff</span>
+    <span class="ticker-item"><span>✦</span> AI in Marketing — Wharton Online</span>
+    <span class="ticker-item"><span>✦</span> +45% Conversion Rate Improvement</span>
+    <span class="ticker-item"><span>✦</span> 3.5x ROAS · Top 2 Channels</span>
+    <span class="ticker-item"><span>✦</span> M.S. Business Analytics · GPA 3.6</span>
+    <span class="ticker-item"><span>✦</span> +18% Campaign Engagement · I3 Infosoft</span>
+    <span class="ticker-item"><span>✦</span> 5 Years Marketing Leadership</span>
+    <span class="ticker-item"><span>✦</span> Available Full-Time from June 2026</span>
+    <span class="ticker-item"><span>✦</span> Google Certified Digital Marketer</span>
+    <span class="ticker-item"><span>✦</span> +65% Social Media Reach Growth</span>
+    <span class="ticker-item"><span>✦</span> Brand Management — University of London</span>
+    <span class="ticker-item"><span>✦</span> +55% Sign-Up Growth · Gharstuff</span>
+    <span class="ticker-item"><span>✦</span> AI in Marketing — Wharton Online</span>
+    <span class="ticker-item"><span>✦</span> +45% Conversion Rate Improvement</span>
+    <span class="ticker-item"><span>✦</span> 3.5x ROAS · Top 2 Channels</span>
+    <span class="ticker-item"><span>✦</span> M.S. Business Analytics · GPA 3.6</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div style="position:relative;z-index:1;">
+    <div class="hero-tag fade"><div class="hero-dot"></div>Available Full-Time · June 2026 · New York City</div>
+    <h1 class="hero-h1 fade fade-d1">
+      <div class="line1">YASHPAL</div>
+      <div class="line2">SAINI.</div>
+    </h1>
+    <p class="hero-rotate fade fade-d2">
+      <span class="word active">Marketing Analytics Specialist</span>
+      <span class="word">Digital Campaign Strategist</span>
+      <span class="word">Brand Performance Analyst</span>
+      <span class="word">Social Media Growth Expert</span>
+    </p>
+    <div class="hero-pills fade fade-d3">
+      <div class="h-pill g"><span class="val">+65%</span> Social Reach</div>
+      <div class="h-pill g"><span class="val">+55%</span> Sign-Up Growth</div>
+      <div class="h-pill g"><span class="val">+45%</span> Conversion Rate</div>
+      <div class="h-pill o"><span class="val">3.5x</span> ROAS</div>
+      <div class="h-pill b"><span class="val">+18%</span> Campaign Engagement</div>
+      <div class="h-pill d"><span class="val">5 Yrs</span> Marketing Leadership</div>
+    </div>
+    <div class="hero-btns fade fade-d4">
+      <a href="#casestudies" class="btn-primary">View Campaign Work ↓</a>
+      <a href="https://linkedin.com/in/yash-saini-analyst" target="_blank" class="btn-ghost">LinkedIn Profile →</a>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<section id="metrics">
+  <div class="sec-label fade">Campaign Intelligence</div>
+  <h2 class="sec-h fade fade-d1">Numbers that moved the needle.</h2>
+  <p class="sec-sub fade fade-d2">Real metrics from real campaigns. Every number is trackable, every result is defensible.</p>
+  <div class="metrics-grid">
+    <div class="m-card green fade"><div class="m-prefix">Social Reach</div><div class="m-num"><span class="count" data-target="65">0</span><span class="m-suffix">%</span></div><div class="m-lbl">Organic reach growth across Instagram, Facebook & WhatsApp</div><div class="m-src">Gharstuff E-Commerce · Owned channels</div></div>
+    <div class="m-card green fade fade-d1"><div class="m-prefix">Sign-Up Growth</div><div class="m-num"><span class="count" data-target="55">0</span><span class="m-suffix">%</span></div><div class="m-lbl">Increase in user sign-ups through referral programs & content</div><div class="m-src">Gharstuff E-Commerce · Google Analytics</div></div>
+    <div class="m-card green fade fade-d2"><div class="m-prefix">Conversion Rate</div><div class="m-num"><span class="count" data-target="45">0</span><span class="m-suffix">%</span></div><div class="m-lbl">Conversion rate improvement via funnel optimization</div><div class="m-src">Gharstuff E-Commerce · GA4 tracking</div></div>
+    <div class="m-card blue fade fade-d3"><div class="m-prefix">Campaign Engagement</div><div class="m-num"><span class="count" data-target="18">0</span><span class="m-suffix">%</span></div><div class="m-lbl">Engagement lift from AI-powered customer segmentation</div><div class="m-src">I3 Infosoft · 1M+ CRM records</div></div>
+    <div class="m-card orange fade"><div class="m-prefix">ROAS · Top Channels</div><div class="m-num"><span class="count" data-target="3">0</span><span class="m-suffix">.5x</span></div><div class="m-lbl">Return on ad spend for top 2 revenue-driving channels</div><div class="m-src">I3 Infosoft · Attribution analysis</div></div>
+    <div class="m-card blue fade fade-d1"><div class="m-prefix">Revenue Concentration</div><div class="m-num"><span class="count" data-target="78">0</span><span class="m-suffix">%</span></div><div class="m-lbl">Revenue driven by 2 top channels after attribution modeling</div><div class="m-src">I3 Infosoft · Python & SQL</div></div>
+    <div class="m-card gold fade fade-d2"><div class="m-prefix">Marketing Leadership</div><div class="m-num"><span class="count" data-target="5">0</span><span class="m-suffix">+ Yrs</span></div><div class="m-lbl">Assistant Marketing Director at JAX Foundation NGO</div><div class="m-src">JAX Foundation · Campaign execution</div></div>
+    <div class="m-card gold fade fade-d3"><div class="m-prefix">Certifications</div><div class="m-num"><span class="count" data-target="3">0</span></div><div class="m-lbl">Google · University of London · Wharton Online</div><div class="m-src">Digital Marketing · Brand · AI</div></div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="casestudies">
+  <div class="sec-label fade">Case Studies</div>
+  <h2 class="sec-h fade fade-d1">Campaign stories, not just slides.</h2>
+  <p class="sec-sub fade fade-d2">Two detailed cases showing how strategy, analytics, and execution drive measurable results.</p>
+
+  <div class="cs-grid fade">
+    <div>
+      <div class="cs-tag">Case Study 01 — E-Commerce Brand Growth</div>
+      <h3 class="cs-h">How organic strategy grew Gharstuff from zero to 65% reach in 12 months.</h3>
+      <p class="cs-p">Built a home and lifestyle e-commerce brand from scratch. Instead of paid media, I focused on organic content strategy, referral program development, and audience segmentation across Instagram, Facebook, and WhatsApp Business. Google Analytics tracked every stage of the funnel to optimize content format, posting cadence, and audience targeting.</p>
+      <div class="cs-stats">
+        <div class="cs-stat"><div class="cs-stat-num">+65%</div><div class="cs-stat-lbl">Reach</div></div>
+        <div class="cs-divider"></div>
+        <div class="cs-stat"><div class="cs-stat-num">+55%</div><div class="cs-stat-lbl">Sign-ups</div></div>
+        <div class="cs-divider"></div>
+        <div class="cs-stat"><div class="cs-stat-num">+45%</div><div class="cs-stat-lbl">Conversion</div></div>
+      </div>
+      <p style="font-size:.8rem;color:var(--sub);">Tools: Google Analytics · Meta Ads · Instagram · Facebook · WhatsApp Business · Canva · Zoho Email</p>
+    </div>
+    <div>
+      <div class="chart-wrap">
+        <div class="chart-title">12-Month Growth Index (Base = 100)</div>
+        <div class="chart-legend">
+          <div class="lg-item"><div class="lg-dot" style="background:#10B981;"></div>Reach</div>
+          <div class="lg-item"><div class="lg-dot" style="background:#0EA5E9;"></div>Sign-ups</div>
+          <div class="lg-item"><div class="lg-dot" style="background:#F59E0B;border-style:dashed;"></div>Conversion Rate</div>
+        </div>
+        <div style="position:relative;height:220px;">
+          <canvas id="growthChart" role="img" aria-label="Line chart showing Gharstuff social media reach growing 65%, sign-ups 55%, and conversion rate 45% over 12 months.">Reach grew from 100 to 165 index; sign-ups from 100 to 155; conversion from 100 to 145.</canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="div-line" style="margin:60px 0;"></div>
+
+  <div class="cs-grid reverse fade">
+    <div>
+      <div class="chart-wrap">
+        <div class="chart-title">Channel Attribution — Revenue Share & ROAS</div>
+        <div style="position:relative;height:240px;">
+          <canvas id="roasChart" role="img" aria-label="Horizontal bar chart showing channel A at 42% revenue with 3.8x ROAS, channel B at 36% with 3.2x ROAS, others performing below 1.5x ROAS.">Channel A: 42% revenue, 3.8x ROAS. Channel B: 36%, 3.2x ROAS. Channels C-E underperforming at below 1.2x ROAS.</canvas>
+        </div>
+        <div style="margin-top:12px;background:var(--green-dim);border:1px solid rgba(16,185,129,.2);border-radius:6px;padding:10px 14px;font-size:.8rem;color:var(--green);">
+          Finding: Top 2 channels = 78% of revenue at avg 3.5x ROAS. 3 channels burned 22% of budget at under 1.2x.
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="cs-tag">Case Study 02 — Revenue Attribution Analysis</div>
+      <h3 class="cs-h">Isolating a 23% revenue decline to one segment, one window, one fix.</h3>
+      <p class="cs-p">Revenue was down 23% across the portfolio and leadership had a dozen theories. I built a Python and SQL attribution model across 1M+ CRM records to trace the decline. It was isolated to a single customer segment over a 2-week window. The attribution analysis then revealed that 2 channels were driving 78% of revenue at 3.5x ROAS while 3 channels consumed 22% of budget with near-zero return.</p>
+      <p class="cs-p" style="margin-bottom:0;">The recommendation changed how the team allocated budget the following quarter. ROI improved. That is what this work is for.</p>
+      <br/>
+      <p style="font-size:.8rem;color:var(--sub);">Tools: Python · SQL · Scikit-learn · Tableau · Looker · CRM data · SciPy A/B testing</p>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="sec-label fade">Skills</div>
+  <h2 class="sec-h fade fade-d1">What I bring to every campaign.</h2>
+  <p class="sec-sub fade fade-d2">Marketing execution depth backed by analytics rigor. Not one or the other — both.</p>
+  <div class="skills-cats">
+    <div class="sk-cat fade">
+      <div class="sk-cat-title"><div class="sk-cat-icon" style="background:var(--acc-dim);">📣</div>Campaign Execution</div>
+      <div class="sk-item"><div class="sk-top"><span>Social Media Management</span><span class="sk-pct">95%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--accent);" data-w="95"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span>Content Strategy & Creation</span><span class="sk-pct">90%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--accent);" data-w="90"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span>Email Marketing (Zoho)</span><span class="sk-pct">85%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--accent);" data-w="85"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span>Brand Standards Management</span><span class="sk-pct">88%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--accent);" data-w="88"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span>Referral Program Development</span><span class="sk-pct">82%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--accent);" data-w="82"></div></div></div>
+    </div>
+    <div class="sk-cat fade fade-d1">
+      <div class="sk-cat-title"><div class="sk-cat-icon" style="background:var(--blue-dim);">📊</div>Analytics & Reporting</div>
+      <div class="sk-item"><div class="sk-top"><span>Google Analytics / GA4</span><span class="sk-pct">93%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--blue);" data-w="93"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span>Campaign Performance Reporting</span><span class="sk-pct">90%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--blue);" data-w="90"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span>A/B Testing & Optimization</span><span class="sk-pct">88%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--blue);" data-w="88"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span>Customer Segmentation</span><span class="sk-pct">85%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--blue);" data-w="85"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span>Competitive Analysis</span><span class="sk-pct">80%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--blue);" data-w="80"></div></div></div>
+    </div>
+    <div class="sk-cat fade fade-d2">
+      <div class="sk-cat-title"><div class="sk-cat-icon" style="background:var(--green-dim);">🎯</div>Paid & Digital Media</div>
+      <div class="sk-item"><div class="sk-top"><span>Meta Ads Manager</span><span class="sk-pct">88%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--green);" data-w="88"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span>Google Ads</span><span class="sk-pct">82%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--green);" data-w="82"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span>SEO & On-Page Optimization</span><span class="sk-pct">80%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--green);" data-w="80"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span>CMS & Website Management</span><span class="sk-pct">78%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--green);" data-w="78"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span>CPC / CPM / ROI Analysis</span><span class="sk-pct">85%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--green);" data-w="85"></div></div></div>
+    </div>
+    <div class="sk-cat fade fade-d3">
+      <div class="sk-cat-title"><div class="sk-cat-icon" style="background:var(--gold-dim);">⚡</div>Data & Technology</div>
+      <div class="sk-item"><div class="sk-top"><span>SQL & Python</span><span class="sk-pct">92%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--gold);" data-w="92"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span>Power BI & Tableau</span><span class="sk-pct">88%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--gold);" data-w="88"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span>Salesforce CRM</span><span class="sk-pct">82%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--gold);" data-w="82"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span>Excel (Advanced)</span><span class="sk-pct">90%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--gold);" data-w="90"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span>Microsoft Office Suite</span><span class="sk-pct">95%</span></div><div class="sk-bar"><div class="sk-fill" style="background:var(--gold);" data-w="95"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="sec-label fade">Tools & Platforms</div>
+  <h2 class="sec-h fade fade-d1">The full stack.</h2>
+  <p class="sec-sub fade fade-d2">Every tool I use professionally — not just listed on a resume.</p>
+  <div class="tools-grid">
+    <div class="tool-card expert fade"><div class="tool-icon">🎨</div><div class="tool-name">Canva</div><div class="tool-level">Expert</div></div>
+    <div class="tool-card expert fade fade-d1"><div class="tool-icon">📈</div><div class="tool-name">Google Analytics 4</div><div class="tool-level">Expert</div></div>
+    <div class="tool-card expert fade fade-d2"><div class="tool-icon">📘</div><div class="tool-name">Meta Ads Manager</div><div class="tool-level">Expert</div></div>
+    <div class="tool-card advanced fade fade-d3"><div class="tool-icon">🔍</div><div class="tool-name">Google Ads</div><div class="tool-level">Advanced</div></div>
+    <div class="tool-card advanced fade"><div class="tool-icon">📧</div><div class="tool-name">Zoho Email</div><div class="tool-level">Advanced</div></div>
+    <div class="tool-card advanced fade fade-d1"><div class="tool-icon">☁️</div><div class="tool-name">Salesforce CRM</div><div class="tool-level">Advanced</div></div>
+    <div class="tool-card advanced fade fade-d2"><div class="tool-icon">📊</div><div class="tool-name">Power BI</div><div class="tool-level">Advanced</div></div>
+    <div class="tool-card advanced fade fade-d3"><div class="tool-icon">📉</div><div class="tool-name">Tableau</div><div class="tool-level">Advanced</div></div>
+    <div class="tool-card proficient fade"><div class="tool-icon">🔎</div><div class="tool-name">SEO & CMS</div><div class="tool-level">Proficient</div></div>
+    <div class="tool-card expert fade fade-d1"><div class="tool-icon">📱</div><div class="tool-name">Instagram</div><div class="tool-level">Expert</div></div>
+    <div class="tool-card expert fade fade-d2"><div class="tool-icon">🟦</div><div class="tool-name">Facebook</div><div class="tool-level">Expert</div></div>
+    <div class="tool-card advanced fade fade-d3"><div class="tool-icon">🐍</div><div class="tool-name">Python</div><div class="tool-level">Advanced</div></div>
+    <div class="tool-card advanced fade"><div class="tool-icon">🗄️</div><div class="tool-name">SQL</div><div class="tool-level">Advanced</div></div>
+    <div class="tool-card proficient fade fade-d1"><div class="tool-icon">💼</div><div class="tool-name">LinkedIn Ads</div><div class="tool-level">Proficient</div></div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="sec-label fade">Experience</div>
+  <h2 class="sec-h fade fade-d1">The journey that built the skills.</h2>
+  <p class="sec-sub fade fade-d2">Five years of campaign execution, two years of corporate marketing analytics, and a graduate-level foundation in marketing and data.</p>
+  <div class="timeline">
+    <div class="tl-item fade">
+      <div class="tl-date">Aug 2025 – Present</div>
+      <div class="tl-org">Research Foundation of CUNY</div>
+      <div class="tl-role">Data Specialist, Analytics and Reporting</div>
+      <ul class="tl-bullets">
+        <li>Improved reporting accuracy by 37% across 26 institutional partners by building data validation frameworks and KPI dashboards, using Power BI and Python.</li>
+        <li>Cut reporting delivery time by 55% by automating pipeline and dashboard workflows, enabling faster performance visibility for leadership.</li>
+        <li>Prepared monthly and quarterly performance reports for executive and cross-functional stakeholders across all 26 CUNY campus partners.</li>
+      </ul>
+    </div>
+    <div class="tl-item fade fade-d1">
+      <div class="tl-date">Sep 2022 – Jul 2024</div>
+      <div class="tl-org">I3 Infosoft Pvt. Ltd.</div>
+      <div class="tl-role">Marketing Data Analyst</div>
+      <ul class="tl-bullets">
+        <li>Grew campaign engagement by 18% by building Scikit-learn segmentation models across 1M+ CRM records, identifying high-value audience cohorts for targeting.</li>
+        <li>Supported A/B testing across 3 product lines, delivering actionable insights that drove quarterly strategy shifts and ROI improvements.</li>
+        <li>Created Tableau and Looker dashboards tracking 15+ campaign and business KPIs across 3 business units, reducing time-to-insight by 35%.</li>
+        <li>Isolated a 23% revenue decline to one customer segment and 2-week window, enabling targeted campaign strategy and budget reallocation via Python attribution model.</li>
+      </ul>
+    </div>
+    <div class="tl-item fade fade-d2">
+      <div class="tl-date">Nov 2016 – Feb 2022</div>
+      <div class="tl-org">JAX Foundation</div>
+      <div class="tl-role">Assistant Marketing Director</div>
+      <ul class="tl-bullets">
+        <li>Expanded social media reach and campaign visibility by managing content and outreach across Instagram, Facebook, and WhatsApp over 5 years.</li>
+        <li>Developed campaign materials for environmental sustainability, women's empowerment, and COVID-19 relief — producing social posts, event promotions, and NGO partnership communications.</li>
+        <li>Maintained brand standards and campaign SOPs across all outreach materials for 500+ annual program participants.</li>
+        <li>Strengthened donor reach, volunteer engagement, and community participation by supporting strategic outreach with local NGOs.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION + CERTS -->
+<section id="education">
+  <div class="sec-label fade">Education</div>
+  <h2 class="sec-h fade fade-d1">Marketing academic depth.</h2>
+  <p class="sec-sub fade fade-d2">Three degrees across marketing, commerce, and business analytics. The intersection is where the work gets interesting.</p>
+  <div class="edu-grid">
+    <div class="edu-card featured fade">
+      <div class="edu-badge">Active</div>
+      <div class="edu-year">Expected May 2026</div>
+      <div class="edu-school">Baruch College, Zicklin School of Business</div>
+      <div class="edu-degree">M.S. Business Analytics — GPA 3.6 · Pliner Bloom Scholar</div>
+      <div class="edu-courses"><strong>Relevant Coursework:</strong> Social Media Analytics · Marketing Analytics · Digital Marketing and SEO · Applied Regression · Machine Learning · Statistical Modeling</div>
+    </div>
+    <div class="edu-card fade fade-d1">
+      <div class="edu-year">Jul 2020 – Jun 2022</div>
+      <div class="edu-school">Amity University</div>
+      <div class="edu-degree">Master of Commerce · Major: Marketing</div>
+      <div class="edu-courses"><strong>Relevant Coursework:</strong> Marketing Management · Consumer Behavior · Brand Management · Advertising · Digital Marketing · Business Research Methods · Strategic Management</div>
+    </div>
+    <div class="edu-card fade fade-d2">
+      <div class="edu-year">Jul 2016 – Jun 2019</div>
+      <div class="edu-school">Kurukshetra University</div>
+      <div class="edu-degree">Bachelor of Commerce</div>
+      <div class="edu-courses"><strong>Relevant Coursework:</strong> Economics · Statistics · Financial Accounting · Business Communication · Principles of Marketing</div>
+    </div>
+  </div>
+
+  <div style="margin-top:48px;">
+    <div class="sec-label fade" style="margin-bottom:20px;">Certifications</div>
+    <div class="certs-row">
+      <div class="cert-card fade">
+        <div class="cert-issuer-row"><div class="cert-logo">🎓</div><div class="cert-issuer">Google</div></div>
+        <div class="cert-name">Fundamentals of Digital Marketing</div>
+        <div class="cert-year">2024 · Verified Credential</div>
+      </div>
+      <div class="cert-card fade fade-d1">
+        <div class="cert-issuer-row"><div class="cert-logo">🏛️</div><div class="cert-issuer">University of London</div></div>
+        <div class="cert-name">Brand Management: Aligning Business, Brand and Behaviour</div>
+        <div class="cert-year">2024 · Verified Credential</div>
+      </div>
+      <div class="cert-card fade fade-d2">
+        <div class="cert-issuer-row"><div class="cert-logo">⚡</div><div class="cert-issuer">Wharton Online · UPenn</div></div>
+        <div class="cert-name">AI Applications in Marketing and Finance</div>
+        <div class="cert-year">2024 · Verified Credential</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="sec-label fade">Projects</div>
+  <h2 class="sec-h fade fade-d1">Built, shipped, measured.</h2>
+  <p class="sec-sub fade fade-d2">Every project here has real data, real results, and a public repository.</p>
+  <div class="proj-grid">
+    <div class="proj-card fade">
+      <div class="pc-accent"></div>
+      <div class="proj-tag-row"><span class="proj-tag orange">Flagship</span><span class="proj-tag green">Live</span></div>
+      <div class="proj-name">Gharstuff E-Commerce Brand</div>
+      <div class="proj-desc">Built a home and lifestyle e-commerce brand from zero. Full campaign ownership: content strategy, referral programs, GA4 tracking, audience segmentation, and conversion funnel optimization across three platforms.</div>
+      <div class="proj-metrics"><span class="proj-m">+65% Reach</span><span class="proj-m">+55% Sign-ups</span><span class="proj-m">+45% Conversion</span></div>
+      <p style="font-size:.72rem;color:var(--sub);margin-top:10px;">Google Analytics · Meta Ads · Instagram · Facebook · Canva · Zoho</p>
+    </div>
+    <div class="proj-card fade fade-d1">
+      <div class="pc-accent"></div>
+      <div class="proj-tag-row"><span class="proj-tag blue">SEO</span><span class="proj-tag blue">GA4</span></div>
+      <div class="proj-name">gmerchpets.com — SEO Project</div>
+      <div class="proj-desc">Built and optimized a full e-commerce website with SEO implementation and Google Analytics integration as part of MSBA digital marketing coursework. Keyword research, on-page content structure, metadata optimization, and performance tracking.</div>
+      <p style="font-size:.72rem;color:var(--sub);margin-top:10px;">Google Analytics · SEO · CMS · Content Strategy</p>
+      <a href="https://gmerchpets.com" target="_blank" class="proj-link">View live site →</a>
+    </div>
+    <div class="proj-card fade fade-d2">
+      <div class="pc-accent"></div>
+      <div class="proj-tag-row"><span class="proj-tag green">Analytics</span><span class="proj-tag green">CRM</span></div>
+      <div class="proj-name">Salesforce CRM Analytics Pipeline</div>
+      <div class="proj-desc">Built a Salesforce CRM analytics pipeline tracking sales pipeline metrics, lead conversion rates, and customer engagement performance. Delivered Power BI dashboards giving marketing and sales leadership campaign visibility.</div>
+      <p style="font-size:.72rem;color:var(--sub);margin-top:10px;">Salesforce · SQL · Python · Power BI · DAX</p>
+    </div>
+    <div class="proj-card fade fade-d3">
+      <div class="pc-accent"></div>
+      <div class="proj-tag-row"><span class="proj-tag gold">Live Demo</span><span class="proj-tag gold">AI</span></div>
+      <div class="proj-name">Statistical A/B Testing Platform</div>
+      <div class="proj-desc">Live Streamlit application with automated statistical testing (Z-test, T-test, Chi-squared) and Claude API narration. Marketing teams run rigorous campaign A/B experiments and get plain-English results summaries automatically.</div>
+      <p style="font-size:.72rem;color:var(--sub);margin-top:10px;">Python · Streamlit · SciPy · Claude API</p>
+      <a href="https://yashpal-adlab.streamlit.app" target="_blank" class="proj-link">Try live demo →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="sec-label fade" style="justify-content:center;">Let's Work Together</div>
+    <h2 class="contact-h fade fade-d1">Ready to move <span class="highlight">the numbers.</span></h2>
+    <p class="contact-p fade fade-d2">M.S. Business Analytics · M.Com Marketing · Google Certified · Wharton · University of London<br/>Available full-time from June 2026 · New York City</p>
+    <div class="contact-links fade fade-d3">
+      <a href="mailto:yashsaini30668@gmail.com" class="c-link primary">Send Email →</a>
+      <a href="https://linkedin.com/in/yash-saini-analyst" target="_blank" class="c-link secondary">LinkedIn</a>
+      <a href="https://yashxsainix.github.io" target="_blank" class="c-link secondary">Main Portfolio</a>
+      <a href="https://github.com/yashxsainix" target="_blank" class="c-link secondary">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>Yashpal Saini · Marketing Analytics Portfolio · NYC</div>
+  <div>Built with <span>♥</span> · Available June 2026</div>
+</footer>
+
+<script>
+/* CURSOR */
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+document.querySelectorAll('a,button,.btn-primary,.btn-ghost,.c-link,.nav-cta').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='20px';cur.style.height='20px';ring.style.width='48px';ring.style.height='48px';});
+  el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px';ring.style.width='36px';ring.style.height='36px';});
+});
+
+/* SCROLL PROGRESS */
+const prog=document.getElementById('prog');
+window.addEventListener('scroll',()=>{
+  const h=document.body.scrollHeight-window.innerHeight;
+  prog.style.width=(window.scrollY/h*100)+'%';
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);
+});
+
+/* HERO ROTATE */
+const words=document.querySelectorAll('.hero-rotate .word');
+let wi=0;
+setInterval(()=>{
+  words[wi].classList.remove('active');
+  wi=(wi+1)%words.length;
+  words[wi].classList.add('active');
+},2800);
+
+/* FADE IN */
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:.1});
+document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+
+/* COUNTER */
+function easeOut(t){return 1-Math.pow(1-t,3);}
+function animCount(el,target,suffix,duration){
+  const isDecimal=target!==Math.floor(target);
+  const start=performance.now();
+  const step=now=>{
+    const t=Math.min((now-start)/duration,1);
+    const val=easeOut(t)*target;
+    el.textContent=isDecimal?val.toFixed(1):Math.floor(val);
+    if(t<1)requestAnimationFrame(step);
+    else el.textContent=isDecimal?target.toFixed(1):target;
+  };
+  requestAnimationFrame(step);
+}
+const countObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting&&!e.target.dataset.counted){
+      e.target.dataset.counted='1';
+      const target=parseFloat(e.target.dataset.target);
+      animCount(e.target,target,'',1800);
+    }
+  });
+},{threshold:.5});
+document.querySelectorAll('.count').forEach(el=>countObs.observe(el));
+
+/* SKILL BARS */
+const skillObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.sk-fill').forEach(bar=>{
+        bar.style.width=bar.dataset.w+'%';
+      });
+    }
+  });
+},{threshold:.2});
+document.querySelectorAll('.sk-cat').forEach(cat=>skillObs.observe(cat));
+
+/* CHART 1 — GROWTH */
+const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const reach= [100,107,115,124,132,138,144,151,156,160,163,165];
+const sgnup=[100,104,110,118,124,131,136,141,145,150,153,155];
+const conv= [100,103,107,112,117,122,127,132,136,140,143,145];
+new Chart(document.getElementById('growthChart'),{
+  type:'line',
+  data:{labels:months,datasets:[
+    {label:'Reach',data:reach,borderColor:'#10B981',backgroundColor:'rgba(16,185,129,.06)',tension:.4,pointRadius:2,borderWidth:2,fill:true},
+    {label:'Sign-ups',data:sgnup,borderColor:'#0EA5E9',backgroundColor:'rgba(14,165,233,.06)',tension:.4,pointRadius:2,borderWidth:2,fill:true},
+    {label:'Conversion',data:conv,borderColor:'#F59E0B',backgroundColor:'rgba(245,158,11,.04)',tension:.4,pointRadius:2,borderWidth:2,fill:true,borderDash:[5,3]},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,backgroundColor:'rgba(7,16,31,.95)',borderColor:'rgba(255,255,255,.08)',borderWidth:1,titleColor:'#EFF6FF',bodyColor:'#7A8FA8',padding:12}},
+    scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#7A8FA8',font:{size:10}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#7A8FA8',font:{size:10}},min:90,max:175}}
+  }
+});
+
+/* CHART 2 — ROAS */
+const channels=['Channel A','Channel B','Channel C','Channel D','Channel E'];
+const revenue=[42,36,12,7,3];
+const roas=[3.8,3.2,1.2,0.9,0.7];
+new Chart(document.getElementById('roasChart'),{
+  type:'bar',
+  data:{labels:channels,datasets:[
+    {label:'Revenue Share %',data:revenue,backgroundColor:['rgba(16,185,129,.8)','rgba(16,185,129,.6)','rgba(255,84,0,.4)','rgba(255,84,0,.3)','rgba(255,84,0,.2)'],borderRadius:4,borderSkipped:false},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(7,16,31,.95)',borderColor:'rgba(255,255,255,.08)',borderWidth:1,titleColor:'#EFF6FF',bodyColor:'#7A8FA8',padding:12,callbacks:{afterLabel:ctx=>`ROAS: ${roas[ctx.dataIndex]}x`}}},
+    scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#7A8FA8',font:{size:10},callback:v=>v+'%'},max:55},y:{grid:{display:false},ticks:{color:'#7A8FA8',font:{size:11}}}}
+  }
+});
+</script>
+</body>
+</html>
